@@ -1,0 +1,77 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con gradiente energético -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#16213e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="coinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0099ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0066ff;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00cc66;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="200" height="200" rx="40" fill="url(#bgGradient)"/>
+  
+  <!-- Moneda principal con efecto 3D -->
+  <circle cx="100" cy="100" r="60" fill="url(#coinGradient)" filter="url(#glow)"/>
+  <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  
+  <!-- Símbolo de dólar estilizado -->
+  <path d="M 100 70 L 100 130 M 85 85 Q 85 75 95 75 Q 105 75 105 85 Q 105 95 95 95 M 85 105 Q 85 115 95 115 Q 105 115 105 105 Q 105 95 95 95" 
+        stroke="white" 
+        stroke-width="6" 
+        stroke-linecap="round" 
+        fill="none"/>
+  
+  <!-- Flecha ascendente (ganancias) -->
+  <path d="M 140 80 L 155 65 L 170 80 M 155 65 L 155 95" 
+        stroke="url(#arrowGradient)" 
+        stroke-width="5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#glow)"/>
+  
+  <!-- Gráfico de crecimiento -->
+  <path d="M 30 150 L 50 140 L 70 130 L 90 120 L 110 110 L 130 100 L 150 90 L 170 80" 
+        stroke="#00ff88" 
+        stroke-width="4" 
+        stroke-linecap="round"
+        fill="none"
+        opacity="0.8"/>
+  
+  <!-- Partículas de energía -->
+  <circle cx="50" cy="50" r="3" fill="#00d4ff" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="150" cy="50" r="3" fill="#00ff88" opacity="0.8">
+    <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="150" r="3" fill="#00d4ff" opacity="0.8">
+    <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="150" cy="150" r="3" fill="#00ff88" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Efecto de brillo -->
+  <ellipse cx="100" cy="80" rx="40" ry="20" fill="white" opacity="0.1"/>
+</svg>
+
