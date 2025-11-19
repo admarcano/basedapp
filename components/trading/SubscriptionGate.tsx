@@ -177,7 +177,7 @@ export function SubscriptionGate({ children, userRole = 'user' }: SubscriptionGa
         await switchChain({ chainId: selectedChain });
         // Esperar un momento para que cambie la red
         await new Promise(resolve => setTimeout(resolve, 1000));
-      } catch (_error) {
+      } catch {
         alert('Por favor, cambia a la red correcta en tu wallet');
         return;
       }

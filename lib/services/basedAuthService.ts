@@ -16,12 +16,30 @@ export class BasedAuthService {
 
   /**
    * Inicia el flujo de OAuth con Based
+   * En desarrollo, permite simular login sin OAuth
    */
   initiateLogin(): void {
-    if (!this.CLIENT_ID) {
-      throw new Error('BASED_CLIENT_ID no configurado');
+    // Modo desarrollo: simular autenticación sin OAuth
+    if (process.env.NODE_ENV === 'development' || !this.CLIENT_ID) {
+      // Crear usuario simulado para desarrollo
+      const devUser: BasedUser = {
+        email: 'albertodiazmarcano@gmail.com',
+        id: 'dev-user-' + Date.now(),
+        name: 'Usuario Desarrollo',
+        walletAddress: '0x0000000000000000000000000000000000000000',
+      };
+
+      // Guardar en localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('based_user', JSON.stringify(devUser));
+        localStorage.setItem('based_access_token', 'dev-token-' + Date.now());
+        // Recargar para actualizar el estado
+        window.location.reload();
+      }
+      return;
     }
 
+    // Producción: usar OAuth real
     const params = new URLSearchParams({
       client_id: this.CLIENT_ID,
       redirect_uri: this.REDIRECT_URI,
