@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode } from "react";
-import { base, baseSepolia } from "wagmi/chains";
+import { base, baseSepolia, arbitrum, optimism } from "wagmi/chains";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import "@coinbase/onchainkit/styles.css";
 
@@ -19,6 +19,8 @@ export function RootProvider({ children }: { children: ReactNode }) {
         wallet: {
           display: "modal",
           preference: "all",
+          // Permitir cambiar entre Base, Arbitrum y Optimism
+          chains: [base, arbitrum, optimism],
         },
       }}
       miniKit={{

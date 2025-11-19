@@ -1,6 +1,6 @@
 // Sistema de Stop Loss y Take Profit dinámicos
 
-import { TradingOrder, TradingPair, PriceData } from '../types/trading';
+import { TradingOrder, PriceData } from '../types/trading';
 import { MarketAnalysis } from './adaptiveStrategy';
 
 export interface DynamicLevels {

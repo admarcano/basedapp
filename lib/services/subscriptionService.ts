@@ -1,7 +1,6 @@
 // Servicio para gestionar suscripciones y pagos
 
-import { User, Subscription, UserRole } from '../types/user';
-import { useAccount } from 'wagmi';
+import { User, Subscription } from '../types/user';
 
 const SUBSCRIPTION_PRICE_EUR = 100;
 const SUBSCRIPTION_PRICE_USD = 110; // Aproximado
@@ -67,16 +66,33 @@ export class SubscriptionService {
   /**
    * Verifica el pago de una suscripción
    */
-  async verifyPayment(transactionHash: string): Promise<boolean> {
+  async verifyPayment(
+    _transactionHash: string,
+    _chainId?: number,
+    _token?: 'ETH' | 'USDC'
+  ): Promise<boolean> {
     try {
-      // TODO: Verificar transacción on-chain
+      // TODO: Verificar transacción on-chain usando viem o ethers
+      // Puedes verificar:
+      // - Que la transacción existe en la red especificada (chainId)
+      // - Que el monto es correcto (100€ en ETH o USDC)
+      // - Que el destinatario es la wallet correcta
+      // - Que el token es el correcto (ETH nativo o USDC ERC20)
+      
       // Por ahora simulamos la verificación
       if (process.env.NODE_ENV === 'development') {
         return true; // En desarrollo, siempre válido
       }
 
-      // En producción, verificar la transacción en Base
-      // Puedes usar viem o ethers para verificar
+      // En producción, verificar la transacción en la red correspondiente
+      // Ejemplo con viem:
+      // const publicClient = createPublicClient({
+      //   chain: getChainById(chainId),
+      //   transport: http()
+      // });
+      // const receipt = await publicClient.getTransactionReceipt({ hash: transactionHash });
+      // Verificar que receipt.to === PAYMENT_WALLET y receipt.status === 'success'
+      
       return true;
     } catch (error) {
       console.error('Error verificando pago:', error);

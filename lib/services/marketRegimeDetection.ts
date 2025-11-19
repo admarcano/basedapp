@@ -30,7 +30,6 @@ export class MarketRegimeDetection {
     }
 
     const prices = priceHistory.map(h => h.price);
-    const currentPrice = prices[prices.length - 1];
 
     // 1. Detectar tendencia
     const trendAnalysis = this.analyzeTrend(prices);
@@ -262,14 +261,12 @@ export class MarketRegimeDetection {
     const currentPrice = prices[prices.length - 1];
     
     // Calcular momentum en múltiples timeframes
-    const momentum1 = ((currentPrice - prices[prices.length - 1]) / prices[prices.length - 1]) * 100;
     const momentum3 = ((currentPrice - prices[prices.length - 3]) / prices[prices.length - 3]) * 100;
     const momentum5 = ((currentPrice - prices[prices.length - 5]) / prices[prices.length - 5]) * 100;
     const momentum10 = ((currentPrice - prices[prices.length - 10]) / prices[prices.length - 10]) * 100;
 
     // Calcular aceleración (cambio en momentum)
     const acceleration3 = momentum3 - momentum5;
-    const acceleration5 = momentum5 - momentum10;
 
     // Impulso fuerte: momentum alto + aceleración positiva
     const isUpImpulse = momentum3 > 1 && momentum5 > 0.8 && acceleration3 > 0;

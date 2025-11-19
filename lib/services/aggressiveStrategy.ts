@@ -1,8 +1,6 @@
 // Estrategia agresiva optimizada para generar muchas operaciones rentables
 
 import { TradingSignal, TradingPair, PriceData } from '../types/trading';
-import { signalService } from './signalService';
-import { MarketAnalysis } from './adaptiveStrategy';
 import { feeCalculator } from './feeCalculator';
 
 export interface AggressiveSignal extends TradingSignal {
@@ -207,7 +205,6 @@ export class AggressiveStrategy {
     // Calcular momentum en múltiples timeframes
     const momentum3 = ((currentPrice - prices[prices.length - 3]) / prices[prices.length - 3]) * 100;
     const momentum5 = ((currentPrice - prices[prices.length - 5]) / prices[prices.length - 5]) * 100;
-    const momentum10 = ((currentPrice - prices[prices.length - 10]) / prices[prices.length - 10]) * 100;
 
     // Detectar aceleración (momentum creciente)
     const acceleration = momentum3 - (momentum5 - momentum3);
@@ -289,7 +286,6 @@ export class AggressiveStrategy {
     // Calcular múltiples medias móviles
     const sma10 = this.calculateSMA(prices, 10);
     const sma20 = this.calculateSMA(prices, 20);
-    const sma50 = prices.length >= 50 ? this.calculateSMA(prices, 50) : sma20;
 
     // Desviación de las medias
     const dev10 = ((currentPrice - sma10) / sma10) * 100;

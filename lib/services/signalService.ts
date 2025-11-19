@@ -1,7 +1,6 @@
 // Servicio para generar señales de trading basadas en estrategias
 
-import { TradingSignal, TradingPair, OrderSide, StrategyType, PriceData } from '../types/trading';
-import { priceService } from './priceService';
+import { TradingSignal, TradingPair, StrategyType, PriceData } from '../types/trading';
 
 export class SignalService {
   private priceHistory: Map<TradingPair, PriceData[]> = new Map();
@@ -209,7 +208,6 @@ export class SignalService {
     const recentPrices = prices.slice(-20);
     const maxPrice = Math.max(...recentPrices);
     const minPrice = Math.min(...recentPrices);
-    const range = maxPrice - minPrice;
 
     // Breakout alcista: precio rompe resistencia
     if (currentPrice > maxPrice * 0.98 && currentPrice > prices[prices.length - 2]) {

@@ -1,10 +1,8 @@
 // Estrategia inteligente que adapta según el régimen de mercado
 
 import { TradingSignal, TradingPair, PriceData, OrderSide } from '../types/trading';
-import { signalService } from './signalService';
 import { marketRegimeDetection, MarketRegime, RegimeAnalysis } from './marketRegimeDetection';
 import { feeCalculator } from './feeCalculator';
-import { adaptiveStrategy, MarketAnalysis } from './adaptiveStrategy';
 
 export interface SmartSignal extends TradingSignal {
   regime: MarketRegime;
@@ -218,7 +216,6 @@ export class SmartTradingStrategy {
 
     // Calcular medias móviles para entradas
     const sma20 = this.calculateSMA(prices, 20);
-    const sma50 = prices.length >= 50 ? this.calculateSMA(prices, 50) : sma20;
 
     // Entrada cuando el precio retrocede a la media (pullback)
     const distanceToSMA20 = ((currentPrice - sma20) / sma20) * 100;

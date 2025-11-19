@@ -6,7 +6,14 @@ import { subscriptionService } from '@/lib/services/subscriptionService';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, transactionHash, currency = 'EUR', paymentMethod = 'crypto' } = body;
+    const { 
+      userId, 
+      transactionHash, 
+      currency = 'EUR', 
+      paymentMethod = 'crypto',
+      chainId,
+      token 
+    } = body;
 
     if (!userId || !transactionHash) {
       return NextResponse.json(
@@ -15,8 +22,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verificar pago
-    const paymentVerified = await subscriptionService.verifyPayment(transactionHash);
+    // Verificar pago (ahora con información de red y token)
+    const paymentVerified = await subscriptionService.verifyPayment(
+      transactionHash,
+      chainId,
+      token
+    );
 
     if (!paymentVerified) {
       return NextResponse.json(
@@ -32,6 +43,12 @@ export async function POST(request: NextRequest) {
       paymentMethod,
       transactionHash
     );
+
+    // Guardar información adicional de la transacción
+    if (chainId && token) {
+      (subscription as any).chainId = chainId;
+      (subscription as any).token = token;
+    }
 
     // TODO: Guardar suscripción en base de datos
 

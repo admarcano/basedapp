@@ -1,7 +1,7 @@
 // Hook personalizado para el bot de trading
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { TradingSignal, TradingOrder, TradingStrategy, BotStatus, TradingPair, PriceData } from '../types/trading';
+import { TradingSignal, TradingOrder, TradingStrategy, BotStatus, TradingPair } from '../types/trading';
 import { priceService } from '../services/priceService';
 import { signalService } from '../services/signalService';
 import { adaptiveStrategy } from '../services/adaptiveStrategy';
@@ -31,11 +31,46 @@ export function useTradingBot() {
   const [prices, setPrices] = useState<Map<TradingPair, number>>(new Map());
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isMountedRef = useRef(true);
 
-  // Inicializar capital management
+  // Inicializar capital management desde localStorage o Based
   useEffect(() => {
-    capitalManagement.setInitialCapital(10); // $10 inicial
+    const loadCapital = async () => {
+      try {
+        // Intentar cargar capital guardado
+        const saved = localStorage.getItem('bot_allocated_capital');
+        if (saved) {
+          const savedCapital = parseFloat(saved);
+          if (savedCapital > 0) {
+            capitalManagement.setInitialCapital(savedCapital);
+            return;
+          }
+        }
+
+        // Si no hay capital guardado, intentar obtener balance de Based
+        if (basedService.isAuthenticated()) {
+          try {
+            const balance = await basedService.getBalance();
+            if (balance > 0) {
+              // Usar 100% del balance por defecto
+              capitalManagement.setInitialCapital(balance);
+              localStorage.setItem('bot_allocated_capital', balance.toString());
+            }
+          } catch (error) {
+            console.error('Error obteniendo balance de Based:', error);
+            // En caso de error, usar valor por defecto
+            capitalManagement.setInitialCapital(1000);
+          }
+        } else {
+          // Si no está autenticado, usar valor por defecto
+          capitalManagement.setInitialCapital(1000);
+        }
+      } catch (error) {
+        console.error('Error inicializando capital:', error);
+        capitalManagement.setInitialCapital(1000);
+      }
+    };
+
+    loadCapital();
   }, []);
 
   // Cargar estrategias desde localStorage

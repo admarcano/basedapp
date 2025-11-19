@@ -33,7 +33,7 @@ export default function BasedCallbackPage() {
           setStatus('error');
           setMessage('Error en autenticación');
         }
-      } catch (error) {
+      } catch {
         setStatus('error');
         setMessage('Error procesando autenticación');
       }

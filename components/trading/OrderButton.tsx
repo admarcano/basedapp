@@ -1,7 +1,5 @@
 "use client";
 
-import { Transaction, TransactionButton, TransactionStatus } from '@coinbase/onchainkit/transaction';
-import { baseSepolia } from 'wagmi/chains';
 import { TradingSignal, TradingStrategy } from '@/lib/types/trading';
 import { useTradingBot } from '@/lib/hooks/useTradingBot';
 

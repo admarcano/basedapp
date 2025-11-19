@@ -7,7 +7,7 @@ import { TradingStrategy } from '@/lib/types/trading';
 // Por ahora usamos un almacenamiento en memoria (se perderá al reiniciar)
 let strategies: TradingStrategy[] = [];
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // En producción, obtener de la base de datos filtrado por usuario
     return NextResponse.json({ strategies });

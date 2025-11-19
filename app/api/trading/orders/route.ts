@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { TradingOrder } from '@/lib/types/trading';
 
 // En producción, esto debería estar en una base de datos
-let orders: TradingOrder[] = [];
+const orders: TradingOrder[] = [];
 
 export async function GET(request: NextRequest) {
   try {

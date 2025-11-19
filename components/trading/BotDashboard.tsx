@@ -11,9 +11,10 @@ import { basedService } from '@/lib/services/basedService';
 import { basedAuthService } from '@/lib/services/basedAuthService';
 import { capitalManagement } from '@/lib/services/capitalManagement';
 import { Logo } from '@/components/Logo';
+import { CapitalConfig } from './CapitalConfig';
 
 export function BotDashboard() {
-  const { address, isConnected } = useAccount();
+  const { } = useAccount();
   const { context } = useMiniKit();
   const {
     status,
@@ -32,6 +33,8 @@ export function BotDashboard() {
   
   const [showStrategyForm, setShowStrategyForm] = useState(false);
   const [isBasedAuthenticated, setIsBasedAuthenticated] = useState(false);
+  const [showCapitalConfig, setShowCapitalConfig] = useState(false);
+  const [capitalConfigured, setCapitalConfigured] = useState(false);
 
   const [activeTab, setActiveTab] = useState<'overview' | 'strategies' | 'orders' | 'signals'>('overview');
 
@@ -47,15 +50,18 @@ export function BotDashboard() {
         basedService.setAccessToken(token);
       }
     }
+
+    // Verificar si el capital ya está configurado
+    const saved = localStorage.getItem('bot_allocated_capital');
+    const isConfigured = !!saved;
+    setCapitalConfigured(isConfigured);
+    setShowCapitalConfig(!isConfigured && isAuth);
   }, []);
 
   const activeOrders = orders.filter(o => o.status === 'open');
   const closedOrders = orders.filter(o => o.status === 'closed');
-  const totalPnl = orders.reduce((sum, o) => sum + (o.pnl || 0), 0);
 
   // Determinar si el usuario tiene acceso gratis
-  const basedUser = basedAuthService.getCurrentUser();
-  const isFreeUser = basedUser ? basedAuthService.isFreeUser(basedUser.email) : false;
   const isDeveloper = context?.user?.fid === 1 || process.env.NODE_ENV === 'development';
   
   const capitalStats = capitalManagement.getCapitalStats();
@@ -70,22 +76,45 @@ export function BotDashboard() {
           )}
 
           {isBasedAuthenticated && (
-            <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-green-400">✓</span>
-                <span className="text-sm">Conectado con Based</span>
+            <>
+              <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="text-green-400">✓</span>
+                  <span className="text-sm">Conectado con Based</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  {!capitalConfigured && (
+                    <button
+                      onClick={() => setShowCapitalConfig(true)}
+                      className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg text-xs transition-colors"
+                    >
+                      Configurar Capital
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      basedAuthService.logout();
+                      setIsBasedAuthenticated(false);
+                      window.location.reload();
+                    }}
+                    className="text-xs text-gray-400 hover:text-white"
+                  >
+                    Desconectar
+                  </button>
+                </div>
               </div>
-              <button
-                onClick={() => {
-                  basedAuthService.logout();
-                  setIsBasedAuthenticated(false);
-                  window.location.reload();
-                }}
-                className="text-xs text-gray-400 hover:text-white"
-              >
-                Desconectar
-              </button>
-            </div>
+
+              {/* Configuración de Capital */}
+              {showCapitalConfig && (
+                <CapitalConfig
+                  onCapitalSet={(amount) => {
+                    setCapitalConfigured(true);
+                    setShowCapitalConfig(false);
+                    window.location.reload();
+                  }}
+                />
+              )}
+            </>
           )}
 
           {/* Header */}

@@ -1,6 +1,5 @@
 // Servicio para interactuar con Based API (app.based.one)
 
-import { BasedCredentials } from '../types/user';
 import { TradingPair, TradingOrder, OrderSide } from '../types/trading';
 
 const BASED_API_BASE = 'https://api.based.one'; // Ajustar según la API real

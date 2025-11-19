@@ -9,7 +9,7 @@ const BASED_TOKEN_URL = 'https://app.based.one/oauth/token'; // Ajustar según l
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { code, state } = body;
+    const { code } = body;
 
     if (!code) {
       return NextResponse.json(
