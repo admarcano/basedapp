@@ -66,15 +66,32 @@ export function BotDashboard() {
   
   const capitalStats = capitalManagement.getCapitalStats();
 
+  // Si no está autenticado con Based, mostrar solo el login
+  if (!isBasedAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950 text-white p-4 flex items-center justify-center relative overflow-hidden">
+        {/* Efectos de fondo futurista */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        <div className="max-w-md w-full relative z-10">
+          <BasedAuth />
+        </div>
+      </div>
+    );
+  }
+
+  // Si está autenticado, verificar suscripción y mostrar dashboard
   return (
     <SubscriptionGate userRole={isDeveloper ? 'developer' : 'user'}>
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white p-4">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Based Auth Section */}
-          {!isBasedAuthenticated && (
-            <BasedAuth />
-          )}
-
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950 text-white p-4 relative overflow-hidden">
+        {/* Efectos de fondo futurista */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        <div className="max-w-4xl mx-auto space-y-6 relative z-10">
           {isBasedAuthenticated && (
             <>
               <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 flex items-center justify-between">
@@ -118,8 +135,10 @@ export function BotDashboard() {
           )}
 
           {/* Header */}
-          <div className="bg-gray-900/60 backdrop-blur-xl rounded-3xl p-6 border border-gray-700/50">
-          <div className="flex items-center justify-between mb-4">
+          <div className="bg-gray-900/60 backdrop-blur-2xl rounded-3xl p-6 border border-cyan-500/20 shadow-2xl shadow-cyan-500/5 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-purple-500/0"></div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <Logo size="medium" />
               <div>
@@ -132,28 +151,41 @@ export function BotDashboard() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className={`px-4 py-2 rounded-full text-sm font-medium ${
+              <div className={`px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm transition-all ${
                 status.isRunning 
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 shadow-lg shadow-emerald-500/20' 
                   : 'bg-gray-700/50 text-gray-400 border border-gray-600/30'
               }`}>
-                {status.isRunning ? '🟢 Activo' : '⚫ Detenido'}
+                <span className={status.isRunning ? 'drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]' : ''}>
+                  {status.isRunning ? '🟢 Activo' : '⚫ Detenido'}
+                </span>
               </div>
               {status.isRunning ? (
                 <button
                   onClick={stopBot}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl transition-colors"
+                  className="group relative px-6 py-2.5 overflow-hidden rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
+                  style={{
+                    background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                    boxShadow: '0 8px 30px rgba(220, 38, 38, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.1)',
+                  }}
                 >
-                  Detener
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                  <span className="relative text-white drop-shadow-lg">Detener</span>
                 </button>
               ) : (
                 <button
                   onClick={startBot}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-xl transition-colors"
+                  className="group relative px-6 py-2.5 overflow-hidden rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
+                  style={{
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    boxShadow: '0 8px 30px rgba(16, 185, 129, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.1)',
+                  }}
                 >
-                  Iniciar
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                  <span className="relative text-white drop-shadow-lg">Iniciar</span>
                 </button>
               )}
+              </div>
             </div>
           </div>
 
@@ -203,8 +235,8 @@ export function BotDashboard() {
           ))}
         </div>
 
-        {/* Tab Content */}
-        <div className="bg-gray-900/40 backdrop-blur-lg rounded-3xl p-6 border border-gray-700/30">
+          {/* Tab Content */}
+          <div className="bg-gray-900/40 backdrop-blur-lg rounded-3xl p-6 border border-gray-700/30">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold mb-4">Precios en Tiempo Real</h2>
@@ -400,28 +432,28 @@ export function BotDashboard() {
               )}
             </div>
           )}
+          </div>
         </div>
-      </div>
 
-      {/* Botón flotante para nueva estrategia */}
-      <button
-        onClick={() => setShowStrategyForm(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center text-2xl transition-all z-40"
-        title="Nueva Estrategia"
-      >
-        +
-      </button>
+          {/* Botón flotante para nueva estrategia */}
+        <button
+          onClick={() => setShowStrategyForm(true)}
+          className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center text-2xl transition-all z-40"
+          title="Nueva Estrategia"
+        >
+          +
+        </button>
 
-      {/* Formulario de estrategia */}
-      {showStrategyForm && (
-        <StrategyForm
-          onSubmit={(strategyData) => {
-            addStrategy(strategyData);
-            setShowStrategyForm(false);
-          }}
-          onCancel={() => setShowStrategyForm(false)}
-        />
-      )}
+        {/* Formulario de estrategia */}
+        {showStrategyForm && (
+          <StrategyForm
+            onSubmit={(strategyData) => {
+              addStrategy(strategyData);
+              setShowStrategyForm(false);
+            }}
+            onCancel={() => setShowStrategyForm(false)}
+          />
+        )}
       </div>
     </SubscriptionGate>
   );
