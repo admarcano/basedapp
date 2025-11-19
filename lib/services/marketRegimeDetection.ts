@@ -263,7 +263,6 @@ export class MarketRegimeDetection {
     // Calcular momentum en múltiples timeframes
     const momentum3 = ((currentPrice - prices[prices.length - 3]) / prices[prices.length - 3]) * 100;
     const momentum5 = ((currentPrice - prices[prices.length - 5]) / prices[prices.length - 5]) * 100;
-    const momentum10 = ((currentPrice - prices[prices.length - 10]) / prices[prices.length - 10]) * 100;
 
     // Calcular aceleración (cambio en momentum)
     const acceleration3 = momentum3 - momentum5;

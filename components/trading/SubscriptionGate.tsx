@@ -175,7 +175,7 @@ export function SubscriptionGate({ children, userRole = 'user' }: SubscriptionGa
         await switchChain({ chainId: selectedChain });
         // Esperar un momento para que cambie la red
         await new Promise(resolve => setTimeout(resolve, 1000));
-      } catch (error) {
+      } catch (_error) {
         alert('Por favor, cambia a la red correcta en tu wallet');
         return;
       }
@@ -218,6 +218,7 @@ export function SubscriptionGate({ children, userRole = 'user' }: SubscriptionGa
     if (isConfirmed && hash) {
       verifyPayment(hash, selectedChain, selectedToken);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, hash, selectedChain, selectedToken]);
 
   const verifyPayment = async (transactionHash: string, chain: PaymentChain, token: PaymentToken) => {

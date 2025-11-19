@@ -107,7 +107,7 @@ export function BotDashboard() {
               {/* Configuración de Capital */}
               {showCapitalConfig && (
                 <CapitalConfig
-                  onCapitalSet={(amount) => {
+                  onCapitalSet={(_amount) => {
                     setCapitalConfigured(true);
                     setShowCapitalConfig(false);
                     window.location.reload();

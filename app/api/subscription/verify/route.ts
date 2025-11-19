@@ -45,16 +45,16 @@ export async function POST(request: NextRequest) {
     );
 
     // Guardar información adicional de la transacción
-    if (chainId && token) {
-      (subscription as any).chainId = chainId;
-      (subscription as any).token = token;
-    }
+    const subscriptionWithMetadata = {
+      ...subscription,
+      ...(chainId && token ? { chainId, token } : {}),
+    };
 
     // TODO: Guardar suscripción en base de datos
 
     return NextResponse.json({
       success: true,
-      subscription,
+      subscription: subscriptionWithMetadata,
     });
   } catch (error) {
     console.error('Error verificando pago:', error);
