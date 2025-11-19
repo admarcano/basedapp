@@ -19,8 +19,6 @@ export function RootProvider({ children }: { children: ReactNode }) {
         wallet: {
           display: "modal",
           preference: "all",
-          // Permitir cambiar entre Base, Arbitrum y Optimism
-          chains: [base, arbitrum, optimism],
         },
       }}
       miniKit={{
