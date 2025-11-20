@@ -36,7 +36,7 @@ export const minikitConfig = {
     description:
       "Bot de trading automático para Based (app.based.one) optimizado para maximizar ganancias. Detecta lateralizaciones, rupturas de tendencias e impulsos fuertes. Gestión inteligente de capital con apalancamiento dinámico y stop loss adaptativo. Operaciones rentables 24/7 en futuros de criptomonedas.",
     screenshotUrls: [`${ROOT_URL}/screenshot-portrait.png`],
-    iconUrl: `${ROOT_URL}/logo-icon.svg`,
+    iconUrl: `${ROOT_URL}/blue-icon.png`,
     splashImageUrl: `${ROOT_URL}/logo.svg`,
     splashBackgroundColor: "#0f3460",
     homeUrl: ROOT_URL,
