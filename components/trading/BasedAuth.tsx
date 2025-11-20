@@ -139,15 +139,15 @@ export function BasedAuth() {
 
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-cyan-500/20">
-            {process.env.NODE_ENV === 'development' ? (
+            {!process.env.NEXT_PUBLIC_BASED_CLIENT_ID || process.env.NEXT_PUBLIC_BASED_CLIENT_ID.trim() === '' ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-center gap-2 text-sm text-yellow-400 bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-3">
                   <span>⚠️</span>
-                  <p className="font-medium">Modo Desarrollo: Se creará una sesión simulada</p>
+                  <p className="font-medium">Modo Simulado: Se creará una sesión de prueba</p>
                 </div>
                 <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
                   <span className="text-cyan-400">ℹ️</span>
-                  <p className="font-light">En producción, serás redirigido a <span className="text-cyan-300 font-medium">app.based.one</span> para autenticarte</p>
+                  <p className="font-light">Para usar OAuth real, configura <span className="text-cyan-300 font-medium">NEXT_PUBLIC_BASED_CLIENT_ID</span> en las variables de entorno</p>
                 </div>
               </div>
             ) : (

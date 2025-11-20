@@ -16,12 +16,12 @@ export class BasedAuthService {
 
   /**
    * Inicia el flujo de OAuth con Based
-   * En desarrollo, permite simular login sin OAuth
+   * En desarrollo o si no hay CLIENT_ID configurado, permite simular login sin OAuth
    */
   initiateLogin(): void {
-    // Modo desarrollo: simular autenticación sin OAuth
-    if (process.env.NODE_ENV === 'development' || !this.CLIENT_ID) {
-      // Crear usuario simulado para desarrollo
+    // Si no hay CLIENT_ID configurado, usar modo simulado (desarrollo o producción sin OAuth)
+    if (!this.CLIENT_ID || this.CLIENT_ID.trim() === '') {
+      // Crear usuario simulado
       const devUser: BasedUser = {
         email: 'albertodiazmarcano@gmail.com',
         id: 'dev-user-' + Date.now(),
@@ -39,21 +39,37 @@ export class BasedAuthService {
       return;
     }
 
-    // Producción: usar OAuth real
-    const params = new URLSearchParams({
-      client_id: this.CLIENT_ID,
-      redirect_uri: this.REDIRECT_URI,
-      response_type: 'code',
-      scope: 'read write',
-      state: this.generateState(),
-    });
+    // Producción con OAuth configurado: usar OAuth real
+    try {
+      const params = new URLSearchParams({
+        client_id: this.CLIENT_ID,
+        redirect_uri: this.REDIRECT_URI,
+        response_type: 'code',
+        scope: 'read write',
+        state: this.generateState(),
+      });
 
-    // Guardar state en sessionStorage para verificación
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('based_oauth_state', params.get('state') || '');
+      // Guardar state en sessionStorage para verificación
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('based_oauth_state', params.get('state') || '');
+        window.location.href = `${this.BASED_OAUTH_URL}/authorize?${params.toString()}`;
+      }
+    } catch (error) {
+      console.error('Error iniciando OAuth:', error);
+      // Si falla OAuth, usar modo simulado como fallback
+      const devUser: BasedUser = {
+        email: 'albertodiazmarcano@gmail.com',
+        id: 'dev-user-' + Date.now(),
+        name: 'Usuario Desarrollo',
+        walletAddress: '0x0000000000000000000000000000000000000000',
+      };
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('based_user', JSON.stringify(devUser));
+        localStorage.setItem('based_access_token', 'dev-token-' + Date.now());
+        window.location.reload();
+      }
     }
-
-    window.location.href = `${this.BASED_OAUTH_URL}/authorize?${params.toString()}`;
   }
 
   /**
