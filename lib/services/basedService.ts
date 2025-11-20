@@ -1,6 +1,6 @@
 // Servicio para interactuar con Based API (app.based.one)
 
-import { TradingPair, TradingOrder, OrderSide } from '../types/trading';
+import { TradingPair, TradingOrder, OrderSide, StrategyType } from '../types/trading';
 
 const BASED_API_BASE = 'https://api.based.one'; // Ajustar según la API real
 
@@ -95,7 +95,8 @@ export class BasedService {
     side: OrderSide,
     quantity: number,
     leverage: number,
-    price?: number
+    price?: number,
+    strategy: StrategyType = 'momentum'
   ): Promise<TradingOrder> {
     if (!this.accessToken) {
       throw new Error('No autenticado con Based');
@@ -128,7 +129,7 @@ export class BasedService {
           quantity,
           leverage,
           status: 'open',
-          strategy: 'adaptive',
+          strategy,
           createdAt: Date.now(),
         };
       }

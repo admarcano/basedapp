@@ -419,7 +419,7 @@ export function useTradingBot() {
           quantity: tradeSize.quantity,
           leverage: optimalLeverage,
           status: 'open',
-          strategy: 'adaptive',
+          strategy: signal.strategy,
           createdAt: Date.now(),
         },
         signal.price,
@@ -434,7 +434,9 @@ export function useTradingBot() {
             signal.pair,
             signal.side,
             tradeSize.quantity,
-            optimalLeverage
+            optimalLeverage,
+            undefined,
+            signal.strategy
           );
           
           // Añadir niveles dinámicos
@@ -466,7 +468,7 @@ export function useTradingBot() {
         quantity: tradeSize.quantity,
         leverage: optimalLeverage,
         status: 'open',
-        strategy: 'adaptive',
+        strategy: signal.strategy,
         createdAt: Date.now(),
         stopLoss: levels.stopLossPercent,
         takeProfit: levels.takeProfitPercent,
