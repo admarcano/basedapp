@@ -27,7 +27,7 @@ export const minikitConfig = {
       "6SFBe7gbF++ZNJBQ66wTcx/5Fx63BSRi9J0VNWqZUDJpXAfC3JwzB9JE7THVMAofZZGjr2xtfe9sgfbavXOTZBs=",
   },
   baseBuilder: {
-    ownerAddress: "0x527f1f09E6cbd77d1f8AD346aB0FaCCE15081659", // Wallet que firmó el accountAssociation
+    ownerAddress: "0xe10f2B7701B54aEC855934cbce25bD35975504D2", // Wallet con la que te logueaste en Base.dev
   },
   miniapp: {
     version: "1",
