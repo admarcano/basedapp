@@ -5,7 +5,8 @@ import { OnchainKitProvider } from "@coinbase/onchainkit";
 import "@coinbase/onchainkit/styles.css";
 
 export function RootProvider({ children }: { children: ReactNode }) {
-  // Usar baseSepolia para desarrollo, base para producción
+  // Configuración de chain: baseSepolia para desarrollo, base para producción
+  // El cambio de chains se maneja con useSwitchChain en SubscriptionGate
   const chain = process.env.NODE_ENV === 'development' ? baseSepolia : base;
   
   return (
