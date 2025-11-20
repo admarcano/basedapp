@@ -16,44 +16,13 @@ export class BasedService {
 
   /**
    * Autentica con Based API (legacy - usar OAuth en su lugar)
+   * @deprecated Usar setAccessToken con token OAuth en su lugar
    */
-  async authenticate(apiKey: string, apiSecret: string): Promise<boolean> {
-    try {
-      // TODO: Implementar autenticación real con Based
-      // Por ahora simulamos la autenticación
-      const response = await fetch(`${BASED_API_BASE}/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': apiKey,
-        },
-        body: JSON.stringify({ apiSecret }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        this.credentials = {
-          apiKey,
-          apiSecret,
-          userId: data.userId || 'user',
-        };
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      console.error('Error autenticando con Based:', error);
-      // En desarrollo, permitir autenticación simulada
-      if (process.env.NODE_ENV === 'development') {
-        this.credentials = {
-          apiKey,
-          apiSecret,
-          userId: 'dev-user',
-        };
-        return true;
-      }
-      return false;
-    }
+  async authenticate(_apiKey: string, _apiSecret: string): Promise<boolean> {
+    // Método legacy - ya no se usa. La autenticación se hace con OAuth
+    // y el token se establece con setAccessToken
+    console.warn('authenticate() es un método legacy. Usar setAccessToken() con token OAuth.');
+    return false;
   }
 
   /**
