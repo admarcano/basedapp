@@ -9,6 +9,7 @@ import { basedAuthService } from '@/lib/services/basedAuthService';
 import { priceService } from '@/lib/services/priceService';
 import { Logo } from '@/components/Logo';
 import { base, arbitrum, optimism } from 'wagmi/chains';
+import { User, Subscription } from '@/lib/types/user';
 
 interface SubscriptionGateProps {
   children: React.ReactNode;
@@ -106,11 +107,13 @@ export function SubscriptionGate({ children, userRole = 'user' }: SubscriptionGa
     // Por ahora, verificar en localStorage
     const subscriptionData = localStorage.getItem(`subscription_${userId}`);
     if (subscriptionData) {
-      const subscription = JSON.parse(subscriptionData);
-      const user = { 
+      const subscription = JSON.parse(subscriptionData) as Subscription;
+      const user: User = { 
+        id: userId,
         role: 'user' as const, 
         email: basedUser.email,
-        subscription 
+        subscription,
+        createdAt: Date.now(), // Fecha actual como fallback
       };
       setHasAccess(subscriptionService.hasActiveAccess(user));
     } else {
