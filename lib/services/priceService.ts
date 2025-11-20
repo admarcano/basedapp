@@ -1,6 +1,8 @@
 // Servicio para obtener precios de criptomonedas
 // Usa CoinGecko API (gratuita) para datos de precios
 
+import { TradingPair } from '../types/trading';
+
 export interface PriceResponse {
   [key: string]: {
     usd: number;
@@ -73,8 +75,8 @@ export class PriceService {
   /**
    * Obtiene múltiples precios a la vez
    */
-  async getPrices(pairs: string[]): Promise<Map<string, number>> {
-    const prices = new Map<string, number>();
+  async getPrices(pairs: TradingPair[]): Promise<Map<TradingPair, number>> {
+    const prices = new Map<TradingPair, number>();
     
     await Promise.all(
       pairs.map(async (pair) => {
