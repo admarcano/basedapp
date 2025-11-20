@@ -1,7 +1,7 @@
 // Hook personalizado para el bot de trading
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { TradingSignal, TradingOrder, TradingStrategy, BotStatus, TradingPair } from '../types/trading';
+import { TradingSignal, TradingOrder, TradingStrategy, BotStatus, TradingPair, OrderStatus } from '../types/trading';
 import { priceService } from '../services/priceService';
 import { signalService } from '../services/signalService';
 import { adaptiveStrategy } from '../services/adaptiveStrategy';
@@ -248,7 +248,7 @@ export function useTradingBot() {
       // Verificar stop loss y take profit dinámicos
       const shouldClose = dynamicStopLoss.shouldCloseOrder(order, currentPrice, levels);
       
-      let newStatus = order.status;
+      let newStatus: OrderStatus = order.status;
       if (shouldClose.shouldClose) {
         newStatus = 'closed';
         // Actualizar capital (después de descontar fees)
