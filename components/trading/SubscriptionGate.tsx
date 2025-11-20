@@ -296,7 +296,7 @@ export function SubscriptionGate({ children, userRole = 'user' }: SubscriptionGa
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-              Trading Bot With Marcano
+              Trading Bot With Based
             </h1>
             <p className="text-gray-300 text-lg font-light tracking-wide">
               Bot de Trading Automático Inteligente

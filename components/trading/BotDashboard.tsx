@@ -143,7 +143,7 @@ export function BotDashboard() {
               <Logo size="medium" />
               <div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-green-400 bg-clip-text text-transparent">
-                  Trading Bot With Marcano
+                          Trading Bot With Based
                 </h1>
                 <p className="text-gray-400 text-sm mt-1">
                   Bot automático para Based • Lateralizaciones • Rupturas • Impulsos

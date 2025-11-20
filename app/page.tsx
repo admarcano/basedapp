@@ -29,7 +29,7 @@ export default function Home() {
       color: 'white'
     }}>
       <div style={{ textAlign: 'center' }}>
-        <h1 style={{ marginBottom: '1rem' }}>🤖 Trading Bot With Marcano</h1>
+        <h1 style={{ marginBottom: '1rem' }}>🤖 Trading Bot With Based</h1>
         <p>Cargando bot de trading...</p>
       </div>
     </div>

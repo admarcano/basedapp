@@ -9,9 +9,9 @@ import { basedService } from '../services/basedService';
 import { capitalManagement } from '../services/capitalManagement';
 import { dynamicStopLoss } from '../services/dynamicStopLoss';
 import { historicalAnalysis } from '../services/historicalAnalysis';
-import { aggressiveStrategy } from '../services/aggressiveStrategy';
+import { aggressiveStrategy, AggressiveSignal } from '../services/aggressiveStrategy';
 import { feeCalculator } from '../services/feeCalculator';
-import { smartTradingStrategy } from '../services/smartTradingStrategy';
+import { smartTradingStrategy, SmartSignal } from '../services/smartTradingStrategy';
 
 const UPDATE_INTERVAL = 5000; // 5 segundos
 
@@ -165,16 +165,21 @@ export function useTradingBot() {
         );
 
         // Combinar todas las señales
-        const combinedSignals = [
+        const combinedSignals: (SmartSignal | AggressiveSignal | TradingSignal)[] = [
           ...smartSignals.filter(s => s.confidence >= strategy.minConfidence),
           ...aggressiveSignals.filter(s => s.confidence >= strategy.minConfidence),
           ...baseSignals.filter(s => s.confidence >= strategy.minConfidence),
         ];
 
+        // Type guard para señales con expectedProfit
+        const hasExpectedProfit = (signal: SmartSignal | AggressiveSignal | TradingSignal): signal is SmartSignal | AggressiveSignal => {
+          return 'expectedProfit' in signal;
+        };
+
         // Verificar rentabilidad después de fees
         const profitableSignals = combinedSignals.filter(signal => {
           // Señales inteligentes y agresivas ya tienen expectedProfit
-          if ('expectedProfit' in signal && signal.expectedProfit > 0) {
+          if (hasExpectedProfit(signal) && signal.expectedProfit > 0) {
             return true;
           }
 
