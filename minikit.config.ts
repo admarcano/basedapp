@@ -34,7 +34,8 @@ export const minikitConfig = {
     name: "Trading Bot With Based",
     subtitle: "Trading Bot Automatizado",
     description:
-      "Bot de trading automático para Based optimizado para maximizar ganancias. Detecta lateralizaciones, rupturas de tendencias e impulsos fuertes. Gestión inteligente de capital con apalancamiento dinámico y stop loss adaptativo.",
+      "Bot de trading automatico para Based optimizado para maximizar ganancias Detecta lateralizaciones rupturas de tendencias e impulsos fuertes Gestion inteligente de capital con apalancamiento dinamico y stop loss adaptativo",
+    noindex: false,
     screenshotUrls: [`${ROOT_URL}/screenshot-portrait.png`],
     iconUrl: `${ROOT_URL}/blue-icon.png`,
     splashImageUrl: `${ROOT_URL}/logo.svg`,
