@@ -377,8 +377,13 @@ export function useTradingBot() {
       
       // Calcular leverage óptimo
       // Si la señal tiene leverage óptimo pre-calculado (señales inteligentes), usarlo
-      let optimalLeverage;
-      if ('optimalLeverage' in signal && signal.optimalLeverage) {
+      // Type guard para señales con optimalLeverage y optimalSize
+      const hasOptimalValues = (signal: SmartSignal | AggressiveSignal | TradingSignal): signal is SmartSignal => {
+        return 'optimalLeverage' in signal && 'optimalSize' in signal;
+      };
+
+      let optimalLeverage: number;
+      if (hasOptimalValues(signal) && signal.optimalLeverage) {
         optimalLeverage = signal.optimalLeverage;
       } else {
         optimalLeverage = adaptiveStrategy.calculateOptimalLeverage(signal, marketAnalysis);
@@ -387,7 +392,7 @@ export function useTradingBot() {
       // Calcular tamaño de operación
       // Si la señal tiene tamaño óptimo pre-calculado (señales inteligentes), usarlo
       let tradeSize;
-      if ('optimalSize' in signal && signal.optimalSize) {
+      if (hasOptimalValues(signal) && signal.optimalSize) {
         tradeSize = {
           quantity: signal.optimalSize,
           capitalAllocated: signal.optimalSize * signal.price / optimalLeverage,
