@@ -448,7 +448,10 @@ export function BotDashboard() {
         {showStrategyForm && (
           <StrategyForm
             onSubmit={(strategyData) => {
-              addStrategy(strategyData);
+              addStrategy({
+                ...strategyData,
+                enabled: true, // Las estrategias nuevas se crean habilitadas por defecto
+              });
               setShowStrategyForm(false);
             }}
             onCancel={() => setShowStrategyForm(false)}
