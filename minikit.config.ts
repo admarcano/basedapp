@@ -1,8 +1,17 @@
-const ROOT_URL =
-  process.env.NEXT_PUBLIC_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+// URL base de la aplicación (sin barra final)
+const getRootUrl = () => {
+  const url =
+    process.env.NEXT_PUBLIC_URL ||
+    (process.env.NODE_ENV === "production"
+      ? "https://basedapp-alpha.vercel.app"
+      : process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000");
+  // Remover barra final si existe para evitar dobles barras
+  return url.replace(/\/$/, "");
+};
+
+const ROOT_URL = getRootUrl();
 
 /**
  * MiniApp configuration object. Must follow the Farcaster MiniApp specification.
