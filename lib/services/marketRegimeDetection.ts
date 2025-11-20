@@ -84,7 +84,7 @@ export class MarketRegimeDetection {
         regime: trendAnalysis.direction === 'up' ? 'trending_up' : 'trending_down',
         confidence: trendAnalysis.confidence,
         strength: trendAnalysis.strength,
-        trendDirection: trendAnalysis.direction,
+        trendDirection: trendAnalysis.direction === 'neutral' ? undefined : trendAnalysis.direction,
         supportLevel: trendAnalysis.support,
         resistanceLevel: trendAnalysis.resistance,
       };
