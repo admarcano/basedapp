@@ -1,6 +1,7 @@
 // Gestión inteligente de capital y volumen
 
-import { TradingSignal, MarketAnalysis } from '../services/adaptiveStrategy';
+import { TradingSignal } from '../types/trading';
+import { MarketAnalysis } from '../services/adaptiveStrategy';
 
 export interface CapitalConfig {
   initialCapital: number; // $10 por defecto
