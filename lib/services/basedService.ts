@@ -27,34 +27,42 @@ export class BasedService {
 
   /**
    * Obtiene el balance de la cuenta
+   * Nota: La API de Based puede no estar disponible, por lo que siempre retorna un valor por defecto
    */
   async getBalance(): Promise<number> {
-    // En desarrollo o si no hay token, retornar balance simulado
-    if (process.env.NODE_ENV === 'development' || !this.accessToken) {
+    // Siempre retornar balance simulado por ahora
+    // Cuando la API de Based esté disponible, se puede implementar la llamada real
+    return 10000; // $10,000 simulado
+    
+    // Código comentado para cuando la API esté disponible:
+    /*
+    if (!this.accessToken) {
       return 10000; // $10,000 simulado
     }
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       const response = await fetch(`${BASED_API_BASE}/balance`, {
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
         },
-      });
+        signal: controller.signal,
+      }).catch(() => null);
+      
+      clearTimeout(timeoutId);
 
-      if (response.ok) {
+      if (response?.ok) {
         const data = await response.json();
         return data.balance || 0;
       }
 
-      // Si falla, retornar valor por defecto en lugar de lanzar error
-      console.warn('No se pudo obtener balance de Based, usando valor por defecto');
       return 10000; // $10,000 por defecto
-    } catch (error) {
-      // Silenciar el error y retornar valor por defecto
-      // Los errores de red son esperados si la API no está disponible
-      console.warn('Error obteniendo balance de Based, usando valor por defecto:', error);
+    } catch {
       return 10000; // $10,000 por defecto
     }
+    */
   }
 
   /**

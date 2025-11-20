@@ -48,17 +48,12 @@ export function useTradingBot() {
 
         // Si no hay capital guardado, intentar obtener balance de Based
         if (basedService.isAuthenticated()) {
-          try {
-            const balance = await basedService.getBalance();
-            if (balance > 0) {
-              // Usar 100% del balance por defecto
-              capitalManagement.setInitialCapital(balance);
-              localStorage.setItem('bot_allocated_capital', balance.toString());
-            }
-          } catch (error) {
-            console.error('Error obteniendo balance de Based:', error);
-            // En caso de error, usar valor por defecto
-            capitalManagement.setInitialCapital(1000);
+          // getBalance() nunca lanza errores, siempre retorna un valor
+          const balance = await basedService.getBalance();
+          if (balance > 0) {
+            // Usar 100% del balance por defecto
+            capitalManagement.setInitialCapital(balance);
+            localStorage.setItem('bot_allocated_capital', balance.toString());
           }
         } else {
           // Si no está autenticado, usar valor por defecto
