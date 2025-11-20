@@ -116,7 +116,7 @@ export function useTradingBot() {
     if (!status.isRunning) return;
 
     try {
-      const pairs: TradingPair[] = ['BTC/USD', 'ETH/USD', 'SOL/USD', 'MATIC/USD'];
+      const pairs: TradingPair[] = ['BTC/USD', 'ETH/USD', 'SOL/USD', 'XRP/USD', 'HYPE/USD'];
       const newPrices = await priceService.getPrices(pairs);
       setPrices(newPrices);
 
